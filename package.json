@@ -1,7 +1,7 @@
 {
-  "name": "react-tag-input",
-  "version": "5.0.2",
-  "description": "React tags is a fantastically simple tagging component for your React projects",
+  "name": "react-tags-materialish",
+  "version": "0.1.1",
+  "description": "React tags is a fantastically simple tagging component for your React projects.  This particular branch makes use of React JSS and attempts to give a Material Design flavor.",
   "main": "dist-modules/ReactTags.js",
   "scripts": {
     "test": "jest --notify --coverage",
@@ -21,9 +21,9 @@
     "react-component",
     "autosuggest"
   ],
-  "author": "Prakhar Srivastav",
+  "author": "Cam Stevenson, Prakhar Srivastav",
   "license": "MIT",
-  "repository": "https://github.com/prakhar1989/react-tags",
+  "repository": "https://github.com/camstevenson/react-tags-materialish",
   "jest": {
     "setupFiles": [
       "raf/polyfill",
@@ -37,7 +37,8 @@
     "react": "16.2.0",
     "react-dnd": "2.6.0",
     "react-dnd-html5-backend": "2.5.4",
-    "react-dom": "16.2.0"
+    "react-dom": "16.2.0",
+    "react-jss": "^8.4.0"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",

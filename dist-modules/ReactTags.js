@@ -30,6 +30,10 @@ var _Tag2 = _interopRequireDefault(_Tag);
 
 var _utils = require('./utils');
 
+var _reactJss = require('react-jss');
+
+var _reactJss2 = _interopRequireDefault(_reactJss);
+
 var _constants = require('./constants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -101,7 +105,7 @@ var ReactTags = function (_Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.setState({
-        classNames: _extends({}, _constants.DEFAULT_CLASSNAMES, this.props.classNames)
+        classNames: _extends({}, this.props.classes, this.props.classNames)
       });
     }
   }, {
@@ -141,7 +145,7 @@ var ReactTags = function (_Component) {
       var suggestions = this.filteredSuggestions(this.state.query, props.suggestions);
       this.setState({
         suggestions: suggestions,
-        classNames: _extends({}, _constants.DEFAULT_CLASSNAMES, props.classNames)
+        classNames: _extends({}, this.props.classes, props.classNames)
       });
     }
   }, {
@@ -463,14 +467,13 @@ ReactTags.defaultProps = {
   allowDeleteFromEmptyInput: true,
   allowAdditionFromPaste: true,
   resetInputOnDelete: true,
-  minQueryLength: 2,
   autocomplete: false,
   readOnly: false
 };
 
 
 module.exports = {
-  WithContext: (0, _reactDnd.DragDropContext)(_reactDndHtml5Backend2.default)(ReactTags),
+  WithContext: (0, _reactDnd.DragDropContext)(_reactDndHtml5Backend2.default)((0, _reactJss2.default)(_constants.DEFAULT_STYLES)(ReactTags)),
   WithOutContext: ReactTags,
   KEYS: _constants.KEYS
 };

@@ -65,11 +65,11 @@ var Suggestions = function (_Component) {
         __html: input.text.replace(RegExp(escapedRegex, 'gi'), '<mark>$&</mark>')
       };
     }, _this.shouldRenderSuggestions = function (query) {
-      var _this2 = _this,
-          props = _this2.props;
+      var _this$props = _this.props,
+          minQueryLength = _this$props.minQueryLength,
+          isFocused = _this$props.isFocused;
 
-      var minQueryLength = _number2.default.isInteger(props.minQueryLength) ? props.minQueryLength : 2;
-      return query.length >= minQueryLength && props.isFocused;
+      return query.length >= minQueryLength && isFocused;
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -100,7 +100,7 @@ var Suggestions = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var props = this.props;
 
@@ -126,7 +126,7 @@ var Suggestions = function (_Component) {
         'div',
         {
           ref: function ref(elem) {
-            _this3.suggestionsContainer = elem;
+            _this2.suggestionsContainer = elem;
           },
           className: this.props.classNames.suggestions },
         _react2.default.createElement(
@@ -153,5 +153,8 @@ Suggestions.propTypes = {
   shouldRenderSuggestions: _propTypes2.default.func,
   isFocused: _propTypes2.default.bool.isRequired,
   classNames: _propTypes2.default.object
+};
+Suggestions.defaultProps = {
+  minQueryLength: 2
 };
 exports.default = Suggestions;
