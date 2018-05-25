@@ -37,13 +37,14 @@ var DEFAULT_STYLES = exports.DEFAULT_STYLES = {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     width: '100%',
     border: '1px solid #ddd',
-    height: '94px'
+    height: '95px'
   },
   tagInput: {
     width: '200px',
     borderRadius: '0',
     fontSize: '13px',
-    display: 'inline-block'
+    display: 'inline-block',
+    marginLeft: '4px'
   },
   tagInputField: {
     height: '31px',
@@ -58,9 +59,8 @@ var DEFAULT_STYLES = exports.DEFAULT_STYLES = {
     fontSize: '13px',
     display: 'inline-block',
     padding: '5px',
-    margin: '0 5px',
     cursor: 'move',
-    borderRadius: '2px'
+    borderRadius: '0'
   },
   tag: {
     border: 'none',
@@ -90,14 +90,15 @@ var DEFAULT_STYLES = exports.DEFAULT_STYLES = {
     height: '22px',
     alignItems: 'center',
     '& svg': {
-      fill: _deleteIconColor,
-      '& :hover': {
-        fill: _deleteIconHoverColor
-      }
+      fill: _deleteIconColor
+    },
+    '& :hover *': {
+      fill: _deleteIconHoverColor
     }
   },
   suggestions: {
     position: 'absolute',
+    zIndex: '32767',
     '& ul': {
       listStyleType: 'none',
       boxShadow: '.05em .01em .5em rgba(0,0,0,.2)',
