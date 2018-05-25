@@ -11,7 +11,9 @@ module.exports = {
     browser: true
   },
   extends: ["eslint:recommended", "plugin:react/recommended"],
+  parser: "babel-eslint",
   parserOptions: {
+    ecmaVersion: 6,
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
       jsx: true
@@ -21,7 +23,7 @@ module.exports = {
   plugins: ["react", "jsx-a11y"],
   rules: {
     indent: [2, 2],
-    "linebreak-style": [2, "unix"],
+    "linebreak-style": 0,
     quotes: [2, "single"],
     semi: [2, "always"],
     eqeqeq: [2, "smart"],

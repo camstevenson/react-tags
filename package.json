@@ -31,6 +31,8 @@
     ]
   },
   "dependencies": {
+    "babel-eslint": "^8.2.3",
+    "babel-preset-es2015": "^6.24.1",
     "core-js": "2.5.4",
     "lodash": "4.17.5",
     "prop-types": "15.6.1",
