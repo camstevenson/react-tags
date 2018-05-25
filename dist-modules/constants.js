@@ -55,7 +55,6 @@ var DEFAULT_STYLES = exports.DEFAULT_STYLES = {
     outline: 'none'
   },
   selected: {
-    background: _backgroundColor,
     fontSize: '13px',
     display: 'inline-block',
     padding: '5px',
