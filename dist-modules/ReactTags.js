@@ -109,15 +109,6 @@ var ReactTags = function (_Component) {
       });
     }
   }, {
-    key: 'resetAndFocusInput',
-    value: function resetAndFocusInput() {
-      this.setState({ query: '' });
-      if (this.textInput) {
-        this.textInput.value = '';
-        this.textInput.focus();
-      }
-    }
-  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _props = this.props,
@@ -129,23 +120,39 @@ var ReactTags = function (_Component) {
       }
     }
   }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(props) {
+      var suggestions = this.filteredSuggestions(this.state.query, props.suggestions, props.tags);
+      this.setState({
+        suggestions: suggestions,
+        classNames: _extends({}, this.props.classes, props.classNames)
+      });
+    }
+  }, {
+    key: 'resetAndFocusInput',
+    value: function resetAndFocusInput() {
+      this.setState({ query: '' });
+      if (this.textInput) {
+        this.textInput.value = '';
+        this.textInput.focus();
+      }
+    }
+  }, {
     key: 'filteredSuggestions',
-    value: function filteredSuggestions(query, suggestions) {
+    value: function filteredSuggestions(query, suggestions, tags) {
       if (this.props.handleFilterSuggestions) {
         return this.props.handleFilterSuggestions(query, suggestions);
       }
 
       return suggestions.filter(function (item) {
-        return item.text.toLowerCase().indexOf(query.toLowerCase()) === 0;
-      });
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(props) {
-      var suggestions = this.filteredSuggestions(this.state.query, props.suggestions);
-      this.setState({
-        suggestions: suggestions,
-        classNames: _extends({}, this.props.classes, props.classNames)
+        if (item.text.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+          var existingMatches = tags.filter(function (existingMatch) {
+            return item.id === existingMatch.id;
+          });
+          return existingMatches.length === 0;
+        } else {
+          return false;
+        }
       });
     }
   }, {
@@ -179,7 +186,7 @@ var ReactTags = function (_Component) {
       }
 
       var query = e.target.value.trim();
-      var suggestions = this.filteredSuggestions(query, this.props.suggestions);
+      var suggestions = this.filteredSuggestions(query, this.props.suggestions, this.props.tags);
 
       var selectedIndex = this.state.selectedIndex;
 
@@ -233,14 +240,16 @@ var ReactTags = function (_Component) {
       }
 
       // When one of the terminating keys is pressed, add current query to the tags.
-      // If no text is typed in so far, ignore the action - so we don't end up with a terminating
-      // character typed in.
+      // If no text is typed in so far, or if write-ins are not allowed, ignore the action - so we don't end
+      // up with a terminating character typed in.
       if (this.props.delimiters.indexOf(e.keyCode) !== -1 && !e.shiftKey) {
         if (e.keyCode !== _constants.KEYS.TAB || query !== '') {
           e.preventDefault();
         }
 
-        var selectedQuery = selectionMode && selectedIndex !== -1 ? suggestions[selectedIndex] : { id: query, text: query };
+        var selectedSuggestion = selectionMode && selectedIndex !== -1 ? suggestions[selectedIndex] : '';
+
+        var selectedQuery = selectedSuggestion === '' && this.props.allowWriteIns ? { id: query, text: query } : selectedSuggestion;
 
         if (selectedQuery !== '') {
           this.addTag(selectedQuery);
@@ -275,7 +284,7 @@ var ReactTags = function (_Component) {
     value: function handlePaste(e) {
       var _this2 = this;
 
-      if (!this.props.allowAdditionFromPaste) {
+      if (!this.props.allowAdditionFromPaste || !this.props.allowWriteIns) {
         return;
       }
 
@@ -309,7 +318,7 @@ var ReactTags = function (_Component) {
         return;
       }
       if (this.props.autocomplete) {
-        var possibleMatches = this.filteredSuggestions(tag, this.props.suggestions);
+        var possibleMatches = this.filteredSuggestions(tag, this.props.suggestions, this.props.tags);
 
         if (this.props.autocomplete === 1 && possibleMatches.length === 1 || this.props.autocomplete === true && possibleMatches.length) {
           tag = possibleMatches[0];
@@ -330,12 +339,12 @@ var ReactTags = function (_Component) {
     }
   }, {
     key: 'handleSuggestionClick',
-    value: function handleSuggestionClick(i, e) {
+    value: function handleSuggestionClick(i) {
       this.addTag(this.state.suggestions[i]);
     }
   }, {
     key: 'handleSuggestionHover',
-    value: function handleSuggestionHover(i, e) {
+    value: function handleSuggestionHover(i) {
       this.setState({
         selectedIndex: i,
         selectionMode: true
@@ -421,6 +430,7 @@ var ReactTags = function (_Component) {
 }(_react.Component);
 
 ReactTags.propTypes = {
+  classes: _propTypes2.default.object.isRequired,
   placeholder: _propTypes2.default.string,
   labelField: _propTypes2.default.string,
   suggestions: _propTypes2.default.arrayOf(_propTypes2.default.shape({
@@ -437,6 +447,8 @@ ReactTags.propTypes = {
   handleTagClick: _propTypes2.default.func,
   allowDeleteFromEmptyInput: _propTypes2.default.bool,
   allowAdditionFromPaste: _propTypes2.default.bool,
+  //  If true, free-form tags can be typed in
+  allowWriteIns: _propTypes2.default.bool,
   resetInputOnDelete: _propTypes2.default.bool,
   handleInputChange: _propTypes2.default.func,
   handleInputFocus: _propTypes2.default.func,
@@ -466,6 +478,7 @@ ReactTags.defaultProps = {
   handleAddition: _lodash.noop,
   allowDeleteFromEmptyInput: true,
   allowAdditionFromPaste: true,
+  allowWriteIns: true,
   resetInputOnDelete: true,
   autocomplete: false,
   readOnly: false

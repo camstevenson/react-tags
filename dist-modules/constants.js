@@ -34,7 +34,10 @@ var _deleteIconHoverColor = 'rgba(0, 0, 0, 0.40)';
 var DEFAULT_STYLES = exports.DEFAULT_STYLES = {
   tags: {
     position: 'relative',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    width: '100%',
+    border: '1px solid #ddd',
+    height: '94px'
   },
   tagInput: {
     width: '200px',
@@ -44,13 +47,13 @@ var DEFAULT_STYLES = exports.DEFAULT_STYLES = {
   },
   tagInputField: {
     height: '31px',
-    margin: '0',
     fontSize: '13px',
     width: '100%',
-    border: 'none !important'
+    border: 'none !important',
+    margin: '5px',
+    outline: 'none'
   },
   selected: {
-    border: '1px solid #ddd',
     background: _backgroundColor,
     fontSize: '13px',
     display: 'inline-block',
