@@ -83,7 +83,7 @@ var ReactTags = function (_Component) {
 
     _this.getSuggestionPickerX = function () {
       if (_this.textInput && _this.state.isFocused) {
-        return _this.textInput.offsetLeft + 'px';
+        return _this.textInput.offsetLeft + _this.textInput.offsetParent.offsetLeft + 'px';
       } else {
         return '0';
       }

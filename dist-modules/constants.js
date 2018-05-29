@@ -114,6 +114,7 @@ var DEFAULT_STYLES = exports.DEFAULT_STYLES = {
     },
     '& li': {
       borderBottom: '1px solid #ddd',
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       fontSize: '14px',
       lineHeight: '24px',
       padding: '5px 10px',
