@@ -1,6 +1,6 @@
 {
   "name": "react-tags-materialish",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "React tags is a fantastically simple tagging component for your React projects.  This particular branch makes use of React JSS and attempts to give a Material Design flavor.",
   "main": "dist-modules/ReactTags.js",
   "scripts": {
