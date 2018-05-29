@@ -79,7 +79,9 @@ var Suggestions = function (_Component) {
       var props = this.props;
 
       var shouldRenderSuggestions = props.shouldRenderSuggestions || this.shouldRenderSuggestions;
-      return props.isFocused !== nextProps.isFocused || !(0, _isEqual2.default)(props.suggestions, nextProps.suggestions) || shouldRenderSuggestions(nextProps.query) || shouldRenderSuggestions(nextProps.query) != shouldRenderSuggestions(props.query);
+      var shouldUpdatePos = (shouldRenderSuggestions(props.query) || shouldRenderSuggestions(nextProps.query)) && props.leftStart !== nextProps.leftStart;
+
+      return props.isFocused !== nextProps.isFocused || !(0, _isEqual2.default)(props.suggestions, nextProps.suggestions) || shouldRenderSuggestions(nextProps.query) || shouldRenderSuggestions(nextProps.query) !== shouldRenderSuggestions(props.query) || shouldUpdatePos;
     }
   }, {
     key: 'componentDidUpdate',
@@ -111,7 +113,7 @@ var Suggestions = function (_Component) {
             key: i,
             onMouseDown: props.handleClick.bind(null, i),
             onMouseOver: props.handleHover.bind(null, i),
-            className: i == props.selectedIndex ? props.classNames.activeSuggestion : '' },
+            className: i === props.selectedIndex ? props.classNames.activeSuggestion : '' },
           _react2.default.createElement('span', { dangerouslySetInnerHTML: this.markIt(item, props.query) })
         );
       }.bind(this));
@@ -128,7 +130,8 @@ var Suggestions = function (_Component) {
           ref: function ref(elem) {
             _this2.suggestionsContainer = elem;
           },
-          className: this.props.classNames.suggestions },
+          className: this.props.classNames.suggestions,
+          style: { left: this.props.leftStart } },
         _react2.default.createElement(
           'ul',
           null,
@@ -152,9 +155,11 @@ Suggestions.propTypes = {
   minQueryLength: _propTypes2.default.number,
   shouldRenderSuggestions: _propTypes2.default.func,
   isFocused: _propTypes2.default.bool.isRequired,
+  leftStart: _propTypes2.default.string,
   classNames: _propTypes2.default.object
 };
 Suggestions.defaultProps = {
-  minQueryLength: 2
+  minQueryLength: 2,
+  leftStart: '0'
 };
 exports.default = Suggestions;

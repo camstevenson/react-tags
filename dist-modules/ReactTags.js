@@ -81,6 +81,14 @@ var ReactTags = function (_Component) {
       });
     };
 
+    _this.getSuggestionPickerX = function () {
+      if (_this.textInput && _this.state.isFocused) {
+        return _this.textInput.offsetLeft + 'px';
+      } else {
+        return '0';
+      }
+    };
+
     _this.state = {
       suggestions: _this.props.suggestions,
       query: '',
@@ -159,11 +167,9 @@ var ReactTags = function (_Component) {
     key: 'handleDelete',
     value: function handleDelete(i, e) {
       this.props.handleDelete(i, e);
-      if (!this.props.resetInputOnDelete) {
-        this.textInput && this.textInput.focus();
-      } else {
-        this.resetAndFocusInput();
-      }
+      this.textInput = null;
+      this.setState({ query: '' });
+
       e.stopPropagation();
     }
   }, {
@@ -172,11 +178,8 @@ var ReactTags = function (_Component) {
       if (this.props.handleTagClick) {
         this.props.handleTagClick(i, e);
       }
-      if (!this.props.resetInputOnDelete) {
-        this.textInput && this.textInput.focus();
-      } else {
-        this.resetAndFocusInput();
-      }
+      this.textInput = null;
+      this.setState({ query: '' });
     }
   }, {
     key: 'handleChange',
@@ -398,9 +401,25 @@ var ReactTags = function (_Component) {
           id: inputId,
           maxLength: maxLength,
           value: this.props.inputValue
-        }),
+        })
+      ) : null;
+
+      return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: this.state.classNames.tags },
+          _react2.default.createElement(
+            'div',
+            { className: this.state.classNames.selected },
+            tagItems,
+            this.props.inline && tagInput
+          ),
+          !this.props.inline && tagInput
+        ),
         _react2.default.createElement(_Suggestions2.default, {
-          query: query,
+          query: '{query}',
           suggestions: suggestions,
           selectedIndex: selectedIndex,
           handleClick: this.handleSuggestionClick,
@@ -408,20 +427,9 @@ var ReactTags = function (_Component) {
           minQueryLength: this.props.minQueryLength,
           shouldRenderSuggestions: this.props.shouldRenderSuggestions,
           isFocused: this.state.isFocused,
-          classNames: this.state.classNames
+          classNames: this.state.classNames,
+          leftStart: this.getSuggestionPickerX()
         })
-      ) : null;
-
-      return _react2.default.createElement(
-        'div',
-        { className: this.state.classNames.tags },
-        _react2.default.createElement(
-          'div',
-          { className: this.state.classNames.selected },
-          tagItems,
-          this.props.inline && tagInput
-        ),
-        !this.props.inline && tagInput
       );
     }
   }]);
@@ -449,7 +457,6 @@ ReactTags.propTypes = {
   allowAdditionFromPaste: _propTypes2.default.bool,
   //  If true, free-form tags can be typed in
   allowWriteIns: _propTypes2.default.bool,
-  resetInputOnDelete: _propTypes2.default.bool,
   handleInputChange: _propTypes2.default.func,
   handleInputFocus: _propTypes2.default.func,
   handleInputBlur: _propTypes2.default.func,
@@ -479,7 +486,6 @@ ReactTags.defaultProps = {
   allowDeleteFromEmptyInput: true,
   allowAdditionFromPaste: true,
   allowWriteIns: true,
-  resetInputOnDelete: true,
   autocomplete: false,
   readOnly: false
 };
