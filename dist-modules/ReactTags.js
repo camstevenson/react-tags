@@ -419,7 +419,7 @@ var ReactTags = function (_Component) {
           !this.props.inline && tagInput
         ),
         _react2.default.createElement(_Suggestions2.default, {
-          query: '{query}',
+          query: query,
           suggestions: suggestions,
           selectedIndex: selectedIndex,
           handleClick: this.handleSuggestionClick,
