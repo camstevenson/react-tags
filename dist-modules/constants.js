@@ -113,21 +113,35 @@ var DEFAULT_STYLES = exports.DEFAULT_STYLES = {
       margin: '0'
     },
     '& li': {
-      borderBottom: '1px solid #ddd',
+      color: 'rgba(0, 0, 0, 0.87)',
+      fontWeight: '400',
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-      fontSize: '14px',
       lineHeight: '24px',
-      padding: '5px 10px',
+      fontSize: '14px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      paddingTop: '12px',
+      paddingBottom: '12px',
+      verticalAlign: 'middle',
       margin: '0',
       '& mark': {
         textDecoration: 'underline',
         background: 'none',
         fontWeight: '600'
+      },
+      '@media (min-width: 600px)': {
+        paddingLeft: '24px',
+        paddingRight: '24px'
       }
     }
   },
   activeSuggestion: {
-    background: '#b7cfe0',
+    transition: 'background 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    transitionProperty: 'background',
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    transitionDelay: '0ms',
+    background: 'rgba(0, 0, 0, 0.08)',
     cursor: 'pointer'
   }
 };

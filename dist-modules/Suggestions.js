@@ -48,29 +48,28 @@ var maybeScrollSuggestionIntoView = function maybeScrollSuggestionIntoView(sugge
 var Suggestions = function (_Component) {
   _inherits(Suggestions, _Component);
 
-  function Suggestions() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
+  function Suggestions(props) {
     _classCallCheck(this, Suggestions);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, (Suggestions.__proto__ || Object.getPrototypeOf(Suggestions)).call(this, props));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Suggestions.__proto__ || Object.getPrototypeOf(Suggestions)).call.apply(_ref, [this].concat(args))), _this), _this.markIt = function (input, query) {
+    _this.markIt = function (input, query) {
       var escapedRegex = query.trim().replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
       return {
         __html: input.text.replace(RegExp(escapedRegex, 'gi'), '<mark>$&</mark>')
       };
-    }, _this.shouldRenderSuggestions = function (query) {
+    };
+
+    _this.shouldRenderSuggestions = function (query) {
       var _this$props = _this.props,
           minQueryLength = _this$props.minQueryLength,
           isFocused = _this$props.isFocused;
 
       return query.length >= minQueryLength && isFocused;
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    };
+
+    _this.scrollerEventTrap = _this.scrollerEventTrap.bind(_this);
+    return _this;
   }
 
   _createClass(Suggestions, [{
@@ -98,6 +97,12 @@ var Suggestions = function (_Component) {
           maybeScrollSuggestionIntoView(activeSuggestion, this.suggestionsContainer);
         }
       }
+    }
+  }, {
+    key: 'scrollerEventTrap',
+    value: function scrollerEventTrap(e) {
+      // Prevent upwards propagation which can trigger a blur.
+      e.preventDefault();
     }
   }, {
     key: 'render',
@@ -131,7 +136,9 @@ var Suggestions = function (_Component) {
             _this2.suggestionsContainer = elem;
           },
           className: this.props.classNames.suggestions,
-          style: { left: this.props.leftStart } },
+          style: { left: this.props.leftStart },
+          onMouseDown: this.scrollerEventTrap
+        },
         _react2.default.createElement(
           'ul',
           null,
