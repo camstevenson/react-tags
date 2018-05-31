@@ -137,7 +137,8 @@ var Suggestions = function (_Component) {
           },
           className: this.props.classNames.suggestions,
           style: { left: this.props.leftStart },
-          onMouseDown: this.scrollerEventTrap
+          onMouseDown: this.scrollerEventTrap,
+          onMouseMove: this.scrollerEventTrap
         },
         _react2.default.createElement(
           'ul',
